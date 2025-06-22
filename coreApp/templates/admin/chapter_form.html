@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if chapter %}Edit{% else %}Create{% endif %} Chapter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #6a0dad; /* Vibrant Purple */
+            --secondary: #4b0082; /* Darker Purple */
+            --accent: #9c27b0; /* Lighter Purple */
+            --light: #121212; /* Dark background for dark theme */
+            --dark: #e1e1e1; /* Light text for dark theme */
+            --card-bg: #1e1e1e; /* Card background for dark theme */
+            --text-color: #e1e1e1; /* Main text color for dark theme */
+            --shadow: 0 4px 20px rgba(0,0,0,0.3);
+            --success: #4caf50; /* Green for success */
+        }
+
+        /* Light theme variables */
+        body[data-theme="light"] {
+            --primary: #6a0dad;
+            --secondary: #4b0082;
+            --accent: #9c27b0;
+            --light: #f8f9fa; /* Light background for light theme */
+            --dark: #212529; /* Dark text for light theme */
+            --card-bg: #ffffff; /* Card background for light theme */
+            --text-color: #2b2d42; /* Main text color for light theme */
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --success: #4caf50;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--light);
+            color: var(--text-color);
+            padding-top: 70px;
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--card-bg);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-control, .form-select {
+            background-color: var(--card-bg); /* Use card-bg for form controls */
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border for dark theme */
+            border-radius: 8px;
+            padding: 12px 15px;
+        }
+        
+        body[data-theme="light"] .form-control, 
+        body[data-theme="light"] .form-select {
+            border: 1px solid rgba(0, 0, 0, 0.1); /* Darker border for light theme */
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(106, 13, 173, 0.25);
+            background-color: var(--card-bg); /* Maintain background on focus */
+            color: var(--text-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #555; /* Neutral dark gray */
+            border-color: #555;
+            transition: all 0.2s ease;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #666;
+            border-color: #666;
+            transform: translateY(-2px);
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theme-switcher {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .theme-switcher:hover {
+            transform: scale(1.1) rotate(30deg);
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="theme-switcher animate__animated animate__fadeInUp" onclick="toggleTheme()">
+        <i class="fas fa-sun" id="theme-icon"></i>
+    </div>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg animate-in">
+                    <div class="card-header">
+                        <h2 class="mb-0 text-white">
+                            <i class="fas fa-bookmark me-2"></i>
+                            {% if chapter %}Edit{% else %}Create{% endif %} Chapter
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Title</label>
+                                <input type="text" class="form-control" name="title" value="{{ form.title.value|default_if_none:'' }}" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Description</label>
+                                <textarea class="form-control" name="description" rows="3">{{ form.description.value|default_if_none:'' }}</textarea>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Order</label>
+                                <input type="number" class="form-control" name="order" value="{{ form.order.value|default_if_none:'0' }}">
+                            </div>
+                            
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="{% url 'coreApp:admin_dashboard' %}" class="btn btn-secondary me-md-2">
+                                    <i class="fas fa-times me-1"></i> Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i> {% if chapter %}Update{% else %}Create{% endif %} Chapter
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Theme switching functionality
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', newTheme);
+            
+            const themeIcon = document.getElementById('theme-icon');
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            
+            // Save preference to localStorage
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        // Initialize theme from localStorage
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark theme
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            const themeIcon = document.getElementById('theme-icon');
+            themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+        
+        // Initialize theme and animations
+        initTheme();
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.card').classList.add('animate-in');
+        });
+    </script>
+</body>
+</html>
