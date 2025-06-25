@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ topic.title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-4">{{ topic.title }}</h1>
+    <p class="text-gray-600 mb-2">From: {{ topic.chapter.title }}</p>
+    
+    <div class="bg-white p-6 rounded shadow mb-4">
+        {{ topic.content|linebreaks }}
+    </div>
+    
+    <form action="{% url 'UserApp:mark_complete' topic.pk %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+            {% if is_completed %}✓ Completed{% else %}Mark Complete{% endif %}
+        </button>
+    </form>
+</div>
+{% endblock %}

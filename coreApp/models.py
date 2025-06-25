@@ -43,13 +43,3 @@ class Topic(models.Model):
 
     def __str__(self):
         return f"{self.chapter.title} - {self.title}"
-
-class UserProgress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    completed = models.BooleanField(default=False)
-    completed_at = models.DateTimeField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('user', 'topic')

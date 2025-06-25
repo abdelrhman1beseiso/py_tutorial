@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4">
+
+    <h1 class="text-3xl font-bold mb-6">Welcome to PyTutorial</h1>
+
+    {% if is_authenticated %}
+    <!-- Progress Summary -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-4">Your Learning Progress</h2>
+        <div class="flex items-center">
+            <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-4 mr-4">
+                <div class="bg-blue-600 h-4 rounded-full" style="width: {{ progress_percentage }}%"></div>
+            </div>
+            <span class="text-gray-700 dark:text-gray-300 font-medium">{{ progress_percentage }}% Complete</span>
+        </div>
+        <p class="mt-2 text-gray-600 dark:text-gray-400">{{ completed_topics }} of {{ total_topics }} topics completed</p>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-4">Recently Completed</h2>
+        {% if recent_progress %}
+        <ul class="space-y-2">
+            {% for progress in recent_progress %}
+            <li class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>{{ progress.topic.chapter.title }} - {{ progress.topic.title }}</span>
+                <span class="text-xs text-gray-500 ml-2">{{ progress.completed_at|timesince }} ago</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-gray-600 dark:text-gray-400">No completed topics yet. Start learning!</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Course Chapters -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">Course Chapters</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+            {% for chapter in chapters %}
+            <a href="{% url 'UserApp:chapter_detail' chapter.pk %}" class="block border dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <h3 class="font-bold text-lg text-gray-900 dark:text-white">{{ chapter.title }}</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">{{ chapter.description|truncatechars:100 }}</p>
+                {% if is_authenticated %}
+                <div class="mt-2">
+                    <div class="flex items-center">
+                        <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mr-2">
+                            <div class="bg-blue-400 h-2 rounded-full" style="width: {% widthratio chapter.completed_topics chapter.total_topics 100 %}%"></div>
+                        </div>
+                        <span class="text-xs text-gray-600 dark:text-gray-300">{{ chapter.completed_topics }}/{{ chapter.total_topics }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

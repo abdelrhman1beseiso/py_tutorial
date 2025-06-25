@@ -20,7 +20,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')  # Change to your desired redirect
+            return redirect('UserApp:home')  
     else:
         form = CustomUserCreationForm()
     return render(request, 'account/signup.html', {'form': form})
@@ -31,14 +31,14 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('home')  # Change to your desired redirect
+            return redirect('UserApp:home')  
     else:
         form = CustomAuthenticationForm()
     return render(request, 'account/login.html', {'form': form})
 
 def logout_view(request):
     logout(request)
-    return redirect('home')  # Change to your desired redirect
+    return redirect('UserApp:home')
 
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'account/password_reset.html'

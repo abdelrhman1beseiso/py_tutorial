@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}My Progress{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">My Progress</h1>
+    
+    {% for item in progress %}
+    <div class="bg-white p-4 rounded shadow mb-2">
+        <h3 class="font-semibold">{{ item.topic.chapter.title }} - {{ item.topic.title }}</h3>
+        <p class="text-sm text-gray-600">Completed on {{ item.completed_at|date:"M d, Y" }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

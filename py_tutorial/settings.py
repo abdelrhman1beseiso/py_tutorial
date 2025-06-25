@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'coreApp',
     'account',
+    'UserApp',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -124,10 +126,9 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+LOGIN_URL = 'account:login'
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home'  # Change to your desired redirect
-LOGOUT_REDIRECT_URL = 'home'  # Change to your desired redirect
+LOGOUT_REDIRECT_URL = 'account:login'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

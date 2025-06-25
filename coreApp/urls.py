@@ -11,7 +11,4 @@ urlpatterns = [
     path('manage/topic/add/<int:chapter_pk>/', views.create_topic, name='create_topic_for_chapter'),
     path('manage/topic/<int:pk>/edit/', views.edit_topic, name='edit_topic'),
     path('manage/dashboard/', views.admin_dashboard, name='admin_dashboard'),
-    
-    # User profile path
-    path('profile/', views.user_profile, name='user_profile'),
 ]
