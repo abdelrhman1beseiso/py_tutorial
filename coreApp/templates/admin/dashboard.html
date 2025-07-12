@@ -1,371 +1,383 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <title>PyTutorial - Content Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #6a0dad; /* Vibrant Purple */
-            --secondary: #4b0082; /* Darker Purple */
-            --accent: #9c27b0; /* Lighter Purple */
-            --light: #121212; /* Dark background for dark theme */
-            --dark: #e1e1e1; /* Light text for dark theme */
-            --card-bg: #1e1e1e; /* Card background for dark theme */
-            --text-color: #e1e1e1; /* Main text color for dark theme */
-            --shadow: 0 4px 20px rgba(0,0,0,0.3);
-            --success: #4caf50; /* Green for success */
-        }
-
-        /* Light theme variables */
-        body[data-theme="light"] {
-            --primary: #6a0dad;
-            --secondary: #4b0082;
-            --accent: #9c27b0;
-            --light: #f8f9fa; /* Light background for light theme */
-            --dark: #212529; /* Dark text for light theme */
-            --card-bg: #ffffff; /* Card background for light theme */
-            --text-color: #2b2d42; /* Main text color for light theme */
-            --shadow: 0 4px 20px rgba(0,0,0,0.08);
-            --success: #4caf50;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--light);
-            color: var(--text-color);
-            padding-top: 70px;
-            transition: all 0.3s ease;
-        }
-
-        .dashboard-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 2rem;
-            border-radius: 0 0 20px 20px;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            animation: fadeInDown 0.8s ease-out; /* Added animation */
-        }
-
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 1.5rem;
-            background: var(--card-bg);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
-
-        .chapter-card {
-            border-left: 5px solid var(--primary); /* Thicker border */
-            padding-left: 20px; /* More padding */
-            margin-bottom: 2.5rem; /* More space between chapters */
-            transition: all 0.3s ease;
-            background-color: var(--card-bg); /* Ensure card background is applied */
-            border-radius: 12px; /* Match card border-radius */
-            box-shadow: var(--shadow); /* Consistent shadow */
-            padding-top: 15px;
-            padding-bottom: 15px;
-        }
-
-        .chapter-card:hover {
-            border-left-color: var(--accent);
-            transform: translateY(-3px); /* Slight lift on hover */
-        }
-
-        .list-group-item {
-            background-color: var(--card-bg); /* Use card-bg for list items */
-            color: var(--text-color);
-            border-radius: 8px !important;
-            margin-bottom: 10px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border for dark theme */
-            padding: 15px 20px; /* More padding */
-        }
-
-        body[data-theme="light"] .list-group-item {
-            border: 1px solid rgba(0,0,0,0.1); /* Darker border for light theme */
-        }
-
-        .list-group-item:hover {
-            background-color: rgba(106, 13, 173, 0.1); /* Light primary tint on hover */
-            transform: translateX(5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--secondary);
-            border-color: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background-color: var(--success);
-            border-color: var(--success);
-            transition: all 0.2s ease;
-        }
-
-        .btn-success:hover {
-            background-color: #3d8b40;
-            border-color: #3d8b40;
-            transform: translateY(-2px);
-        }
-
-        .btn-light {
-            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white for dark theme */
-            border-color: rgba(255, 255, 255, 0.2);
-            color: var(--text-color);
-            transition: all 0.2s ease;
-        }
-
-        body[data-theme="light"] .btn-light {
-            background-color: #f0f0f0;
-            border-color: #ddd;
-            color: var(--text-color);
-        }
-
-        .btn-light:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline-primary {
-            color: var(--primary);
-            border-color: var(--primary);
-            transition: all 0.2s ease;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline-secondary {
-            color: var(--text-color);
-            border-color: #555;
-            transition: all 0.2s ease;
-        }
-
-        body[data-theme="light"] .btn-outline-secondary {
-            border-color: #ccc;
-            color: #666;
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: #555;
-            border-color: #555;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .badge {
-            font-weight: 600; /* Bolder badges */
-            padding: 0.4em 0.8em; /* Slightly larger padding */
-            border-radius: 0.5rem; /* More rounded corners */
-        }
-
-        .bg-primary {
-            background-color: var(--primary) !important;
-        }
-
-        .bg-success {
-            background-color: var(--success) !important;
-        }
-
-        .bg-warning {
-            background-color: #ff9800 !important; /* Standard warning orange */
-        }
-
-        .alert-info, .alert-warning {
-            background-color: var(--card-bg) !important; /* Match card background */
-            border-color: rgba(255,255,255,0.1) !important; /* Subtle border */
-            color: var(--text-color) !important;
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .animate-in {
-            animation: fadeInUp 0.5s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .theme-switcher {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: var(--primary);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .chapter-header {
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: all 0.3s;
+            transition: all 0.2s ease;
         }
-
-        .theme-switcher:hover {
-            transform: scale(1.1) rotate(30deg);
+        .chapter-header:hover {
+            background: rgba(59, 130, 246, 0.02);
+        }
+        .dark .chapter-header:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .topics-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+        .topics-container.expanded {
+            max-height: 2000px;
+            opacity: 1;
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
         }
     </style>
 </head>
-<body data-theme="dark">
-    <div class="theme-switcher animate__animated animate__fadeInUp" onclick="toggleTheme()">
-        <i class="fas fa-sun" id="theme-icon"></i>
-    </div>
 
-    <div class="dashboard-header animate__animated animate__fadeIn">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <h1 class="text-white"><i class="fas fa-book-open me-2"></i>Content Management</h1>
+<body class="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+    
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="fixed bottom-6 right-6 z-50 p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-105">
+        <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+    </button>
+
+    <!-- Header -->
+    <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-40">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Content Management</h1>
+                        <p class="text-slate-600 dark:text-slate-400">Manage your course chapters and topics</p>
+                    </div>
+                </div>
+                
                 <div>
-                    <a href="{% url 'coreApp:create_chapter' %}" class="btn btn-light me-2 animate__animated animate__pulse animate__infinite">
-                        <i class="fas fa-plus me-1"></i> Add Chapter
+                    <a href="{% url 'coreApp:create_chapter' %}" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Add Chapter
                     </a>
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
-    <div class="container">
-        <div class="card animate-in">
-            <div class="card-body">
-                {% for chapter in chapters %}
-                <div class="chapter-card animate__animated animate__fadeInUp">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h3>
-                            <i class="fas fa-bookmark text-primary me-2"></i>
-                            {{ chapter.title }}
-                            <small class="text-muted">({{ chapter.topics.count }} topics)</small>
-                        </h3>
-                        <div>
-                            <a href="{% url 'coreApp:edit_chapter' chapter.pk %}" class="btn btn-sm btn-outline-primary me-2">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a href="{% url 'coreApp:create_topic_for_chapter' chapter.pk %}" class="btn btn-sm btn-success">
-                                <i class="fas fa-plus"></i> Add Topic
-                            </a>
-                        </div>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
                     </div>
-                    
-                    {% if chapter.topics.all %}
-                    <div class="list-group">
-                        {% for topic in chapter.topics.all %}
-                        <div class="list-group-item animate__animated animate__fadeInRight animate__faster" data-index="{{ forloop.counter0 }}">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="mb-1">
-                                        <i class="fas fa-file-alt me-2"></i>
-                                        {{ topic.title }}
-                                    </h5>
-                                    <small class="text-muted">
-                                        <span class="badge bg-primary me-2">{{ topic.get_difficulty_display }}</span>
-                                        {% if topic.is_published %}
-                                        <span class="badge bg-success">Published</span>
-                                        {% else %}
-                                        <span class="badge bg-warning">Draft</span>
-                                        {% endif %}
-                                    </small>
-                                </div>
-                                <div>
-                                    <a href="{% url 'coreApp:edit_topic' topic.pk %}" class="btn btn-sm btn-outline-secondary">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </a>
+                    <div>
+                        <div class="text-3xl font-bold text-slate-900 dark:text-white">{{ chapters.count }}</div>
+                        <div class="text-slate-600 dark:text-slate-400 font-medium">Total Chapters</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-slate-900 dark:text-white">
+                            {% for chapter in chapters %}{{ chapter.topics.count|add:0 }}{% if not forloop.last %}+{% endif %}{% endfor %}
+                        </div>
+                        <div class="text-slate-600 dark:text-slate-400 font-medium">Total Topics</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-slate-900 dark:text-white">85%</div>
+                        <div class="text-slate-600 dark:text-slate-400 font-medium">Published Rate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapters List -->
+        <div class="space-y-6">
+            {% for chapter in chapters %}
+            <div class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
+                
+                <!-- Chapter Header -->
+                <div class="chapter-header p-8" onclick="toggleChapter({{ chapter.pk }})">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-6 flex-1">
+                            <!-- Toggle Icon -->
+                            <div class="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-2xl flex items-center justify-center">
+                                <svg class="w-5 h-5 text-slate-600 dark:text-slate-400 toggle-icon transition-transform duration-300" id="toggle-icon-{{ chapter.pk }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                            
+                            <!-- Chapter Info -->
+                            <div class="flex-1">
+                                <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                                    {{ chapter.title }}
+                                </h3>
+                                <div class="flex items-center gap-6 text-sm text-slate-600 dark:text-slate-400">
+                                    <span class="flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                        </svg>
+                                        {{ chapter.topics.count }} topic{{ chapter.topics.count|pluralize }}
+                                    </span>
+                                    <span class="flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 8a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4zm-6 4a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4z"/>
+                                        </svg>
+                                        Created {{ chapter.created_at|date:"M d, Y" }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                        {% endfor %}
+                        
+                        <!-- Chapter Actions -->
+                        <div class="flex items-center gap-3" onclick="event.stopPropagation()">
+                            <a href="{% url 'coreApp:edit_chapter' chapter.pk %}" class="inline-flex items-center px-5 py-3 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium rounded-2xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-all duration-200 transform hover:-translate-y-0.5">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                                Edit
+                            </a>
+                            <a href="{% url 'coreApp:create_topic_for_chapter' chapter.pk %}" class="inline-flex items-center px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-2xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                </svg>
+                                Add Topic
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topics Container -->
+                <div class="topics-container" id="topics-container-{{ chapter.pk }}">
+                    {% if chapter.topics.all %}
+                    <div class="px-8 pb-8">
+                        <div class="border-t border-slate-200 dark:border-slate-700 pt-8">
+                            <h4 class="text-lg font-semibold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+                                <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                    </svg>
+                                </div>
+                                Chapter Topics
+                            </h4>
+                            
+                            <div class="grid gap-4">
+                                {% for topic in chapter.topics.all %}
+                                <div class="p-6 bg-slate-50 dark:bg-slate-700/50 rounded-2xl border border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700/70 transition-all duration-300">
+                                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                                        <div class="flex-1">
+                                            <div class="flex items-center gap-4 mb-4">
+                                                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                                    </svg>
+                                                </div>
+                                                <h5 class="text-lg font-semibold text-slate-900 dark:text-white">
+                                                    {{ topic.title }}
+                                                </h5>
+                                            </div>
+                                            
+                                            <div class="flex flex-wrap gap-3">
+                                                <span class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium">
+                                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                    </svg>
+                                                    {{ topic.get_difficulty_display }}
+                                                </span>
+                                                
+                                                {% if topic.is_published %}
+                                                <span class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-medium">
+                                                    <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                                                    Published
+                                                </span>
+                                                {% else %}
+                                                <span class="inline-flex items-center gap-2 px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full text-sm font-medium">
+                                                    <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                                                    Draft
+                                                </span>
+                                                {% endif %}
+                                                
+                                                {% if topic.created_at %}
+                                                <span class="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 dark:bg-slate-600 text-slate-600 dark:text-slate-300 rounded-full text-sm font-medium">
+                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 8a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4zm-6 4a2 2 0 100-4 2 2 0 000 4zm6 0a2 2 0 100-4 2 2 0 000 4z"/>
+                                                    </svg>
+                                                    {{ topic.created_at|date:"M d" }}
+                                                </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Topic Actions -->
+                                        <div class="flex gap-3">
+                                            <a href="{% url 'coreApp:edit_topic' topic.pk %}" class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-200 transform hover:-translate-y-0.5">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                                </svg>
+                                                Edit
+                                            </a>
+                                            <a href="{% url 'coreApp:delete_topic' topic.pk %}" class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-800 border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 font-medium rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 transform hover:-translate-y-0.5">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                </svg>
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                     {% else %}
-                    <div class="alert alert-info animate__animated animate__fadeIn" style="background-color: var(--card-bg); border-color: rgba(255,255,255,0.1); color: var(--text-color);">
-                        <i class="fas fa-info-circle me-2"></i>No topics yet. Add your first topic!
+                    <div class="px-8 pb-8">
+                        <div class="border-t border-slate-200 dark:border-slate-700 pt-8">
+                            <div class="p-8 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-2xl text-center">
+                                <div class="w-16 h-16 bg-slate-100 dark:bg-slate-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </div>
+                                <h4 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">No topics yet</h4>
+                                <p class="text-slate-600 dark:text-slate-400 mb-6">Add your first topic to get started with this chapter!</p>
+                                <a href="{% url 'coreApp:create_topic_for_chapter' chapter.pk %}" class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                    </svg>
+                                    Create First Topic
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     {% endif %}
                 </div>
-                {% empty %}
-                <div class="alert alert-warning animate__animated animate__fadeIn" style="background-color: var(--card-bg); border-color: rgba(255,255,255,0.1); color: var(--text-color);">
-                    <i class="fas fa-exclamation-triangle me-2"></i>No chapters yet. Create your first chapter!
-                </div>
-                {% endfor %}
             </div>
+            {% empty %}
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-16 border border-slate-200 dark:border-slate-700 text-center">
+                <div class="w-24 h-24 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-8">
+                    <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                </div>
+                <h3 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">No chapters yet</h3>
+                <p class="text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">Create your first chapter to start building your course content and help students learn Python!</p>
+                <a href="{% url 'coreApp:create_chapter' %}" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    Create First Chapter
+                </a>
+            </div>
+            {% endfor %}
         </div>
-    </div>
+    </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Theme switching functionality
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        
         function toggleTheme() {
-            const currentTheme = document.body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.body.setAttribute('data-theme', newTheme);
-            
-            const themeIcon = document.getElementById('theme-icon');
-            themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            
-            // Save preference to localStorage
-            localStorage.setItem('theme', newTheme);
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
         }
         
-        // Initialize theme from localStorage
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark theme
-            document.body.setAttribute('data-theme', savedTheme);
-            
-            const themeIcon = document.getElementById('theme-icon');
-            themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        }
+        themeToggle?.addEventListener('click', toggleTheme);
         
-        // Initialize theme and animations
-        initTheme();
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate each chapter card sequentially
-            document.querySelectorAll('.chapter-card').forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.add('animate__animated', 'animate__fadeInUp');
-                }, index * 100);
-            });
+        // Auto apply theme on page load
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
 
-            // Set animation-delay for each topic list-group-item
-            document.querySelectorAll('.list-group-item.animate__fadeInRight').forEach((item) => {
-                const index = parseInt(item.getAttribute('data-index'), 10) || 0;
-                item.style.animationDelay = (index * 0.05) + 's';
-            });
+        // Chapter toggle functionality
+        function toggleChapter(chapterId) {
+            const container = document.getElementById(`topics-container-${chapterId}`);
+            const icon = document.getElementById(`toggle-icon-${chapterId}`);
+            
+            if (container.classList.contains('expanded')) {
+                // Collapse
+                container.classList.remove('expanded');
+                icon.classList.remove('rotated');
+            } else {
+                // Expand
+                container.classList.add('expanded');
+                icon.classList.add('rotated');
+            }
+        }
 
-            // Added animation for the "Add Chapter" and "Add Topic" buttons
-            document.querySelectorAll('.dashboard-header .btn-light').forEach((btn, index) => {
-                btn.style.setProperty('--animate-duration', '2s'); // Make pulse slower
-                btn.style.setProperty('--animate-delay', `${0.1 * index}s`); // Stagger delay
-            });
+        // Add keyboard support for accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('chapter-header') && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault();
+                e.target.click();
+            }
         });
+
+        // Smooth scrolling
+        document.documentElement.style.scrollBehavior = 'smooth';
     </script>
 </body>
 </html>

@@ -1,222 +1,323 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if chapter %}Edit{% else %}Create{% endif %} Chapter</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <title>PyTutorial - {% if chapter %}Edit{% else %}Create{% endif %} Chapter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'fadeInUp': 'fadeInUp 0.6s ease-out',
+                        'fadeInDown': 'fadeInDown 0.8s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --primary: #6a0dad; /* Vibrant Purple */
-            --secondary: #4b0082; /* Darker Purple */
-            --accent: #9c27b0; /* Lighter Purple */
-            --light: #121212; /* Dark background for dark theme */
-            --dark: #e1e1e1; /* Light text for dark theme */
-            --card-bg: #1e1e1e; /* Card background for dark theme */
-            --text-color: #e1e1e1; /* Main text color for dark theme */
-            --shadow: 0 4px 20px rgba(0,0,0,0.3);
-            --success: #4caf50; /* Green for success */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
-
-        /* Light theme variables */
-        body[data-theme="light"] {
-            --primary: #6a0dad;
-            --secondary: #4b0082;
-            --accent: #9c27b0;
-            --light: #f8f9fa; /* Light background for light theme */
-            --dark: #212529; /* Dark text for light theme */
-            --card-bg: #ffffff; /* Card background for light theme */
-            --text-color: #2b2d42; /* Main text color for light theme */
-            --shadow: 0 4px 20px rgba(0,0,0,0.08);
-            --success: #4caf50;
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+            to { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
         }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--light);
-            color: var(--text-color);
-            padding-top: 70px;
-            transition: all 0.3s ease;
-        }
-
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background: var(--card-bg);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-radius: 12px 12px 0 0 !important;
-            padding: 1.2rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .form-control, .form-select {
-            background-color: var(--card-bg); /* Use card-bg for form controls */
-            color: var(--text-color);
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border for dark theme */
-            border-radius: 8px;
-            padding: 12px 15px;
-        }
-        
-        body[data-theme="light"] .form-control, 
-        body[data-theme="light"] .form-select {
-            border: 1px solid rgba(0, 0, 0, 0.1); /* Darker border for light theme */
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 0.25rem rgba(106, 13, 173, 0.25);
-            background-color: var(--card-bg); /* Maintain background on focus */
-            color: var(--text-color);
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--secondary);
-            border-color: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: #555; /* Neutral dark gray */
-            border-color: #555;
-            transition: all 0.2s ease;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #666;
-            border-color: #666;
-            transform: translateY(-2px);
-        }
-
-        .animate-in {
-            animation: fadeInUp 0.5s ease-out;
-        }
-
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .theme-switcher {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: var(--primary);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: all 0.3s;
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .theme-switcher:hover {
-            transform: scale(1.1) rotate(30deg);
+        .bg-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(147, 51, 234, 0.1) 0%, transparent 50%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .form-glow:focus-within {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 0 20px rgba(59, 130, 246, 0.2);
         }
     </style>
 </head>
-<body data-theme="dark">
-    <div class="theme-switcher animate__animated animate__fadeInUp" onclick="toggleTheme()">
-        <i class="fas fa-sun" id="theme-icon"></i>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 transition-all duration-500 bg-pattern">
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full opacity-20 animate-float"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-purple-400 to-pink-600 rounded-full opacity-20 animate-float" style="animation-delay: -3s;"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-blue-300 to-purple-400 rounded-full opacity-10 animate-float" style="animation-delay: -1.5s;"></div>
     </div>
 
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card shadow-lg animate-in">
-                    <div class="card-header">
-                        <h2 class="mb-0 text-white">
-                            <i class="fas fa-bookmark me-2"></i>
-                            {% if chapter %}Edit{% else %}Create{% endif %} Chapter
-                        </h2>
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="fixed bottom-6 right-6 z-50 p-4 glass-effect rounded-full text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-110 hover:rotate-12 shadow-lg">
+        <i class="fas fa-sun dark:hidden text-xl"></i>
+        <i class="fas fa-moon hidden dark:block text-xl"></i>
+    </button>
+
+    <!-- Header -->
+    <header class="glass-effect sticky top-0 z-40 animate-fadeInDown">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center animate-glow">
+                    <i class="fas fa-bookmark text-white text-xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
+                    {% if chapter %}Edit{% else %}Create{% endif %} Chapter
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden animate-fadeInUp">
+                
+                <!-- Form Header -->
+                <div class="bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 px-8 py-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-bookmark text-white"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-white">
+                                {% if chapter %}Edit Chapter{% else %}Create New Chapter{% endif %}
+                            </h2>
+                            <p class="text-blue-100">
+                                {% if chapter %}Update your chapter details{% else %}Add a new chapter to your course{% endif %}
+                            </p>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <div class="mb-4">
-                                <label class="form-label fw-bold">Title</label>
-                                <input type="text" class="form-control" name="title" value="{{ form.title.value|default_if_none:'' }}" required>
+                </div>
+
+                <!-- Form Body -->
+                <div class="p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md">
+                    <form method="POST" class="space-y-8">
+                        {% csrf_token %}
+                        
+                        <!-- Title Field -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-heading mr-2 text-blue-500"></i>Chapter Title
+                            </label>
+                            <div class="relative form-glow rounded-xl transition-all duration-300">
+                                <input 
+                                    type="text" 
+                                    name="title" 
+                                    value="{{ form.title.value|default_if_none:'' }}" 
+                                    required
+                                    class="w-full px-4 py-4 pl-12 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-all duration-300 text-lg font-medium placeholder-gray-400 dark:placeholder-gray-500"
+                                    placeholder="Enter chapter title..."
+                                >
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="fas fa-heading text-gray-400 text-lg"></i>
+                                </div>
                             </div>
-                            
-                            <div class="mb-4">
-                                <label class="form-label fw-bold">Description</label>
-                                <textarea class="form-control" name="description" rows="3">{{ form.description.value|default_if_none:'' }}</textarea>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Choose a clear, descriptive title for your chapter
+                            </p>
+                        </div>
+
+                        <!-- Description Field -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-align-left mr-2 text-blue-500"></i>Description
+                            </label>
+                            <div class="relative form-glow rounded-xl transition-all duration-300">
+                                <textarea 
+                                    name="description" 
+                                    rows="4"
+                                    class="w-full px-4 py-4 pl-12 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-all duration-300 placeholder-gray-400 dark:placeholder-gray-500 resize-none"
+                                    placeholder="Describe what this chapter covers..."
+                                >{{ form.description.value|default_if_none:'' }}</textarea>
+                                <div class="absolute top-4 left-0 pl-4 flex items-start pointer-events-none">
+                                    <i class="fas fa-align-left text-gray-400 text-lg mt-1"></i>
+                                </div>
                             </div>
-                            
-                            <div class="mb-4">
-                                <label class="form-label fw-bold">Order</label>
-                                <input type="number" class="form-control" name="order" value="{{ form.order.value|default_if_none:'0' }}">
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Provide a brief overview of the chapter content
+                            </p>
+                        </div>
+
+                        <!-- Order Field -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-sort-numeric-up mr-2 text-blue-500"></i>Chapter Order
+                            </label>
+                            <div class="relative form-glow rounded-xl transition-all duration-300">
+                                <input 
+                                    type="number" 
+                                    name="order" 
+                                    value="{{ form.order.value|default_if_none:'0' }}"
+                                    min="0"
+                                    class="w-full px-4 py-4 pl-12 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-all duration-300 text-lg font-medium placeholder-gray-400 dark:placeholder-gray-500"
+                                    placeholder="0"
+                                >
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="fas fa-sort-numeric-up text-gray-400 text-lg"></i>
+                                </div>
                             </div>
-                            
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="{% url 'coreApp:admin_dashboard' %}" class="btn btn-secondary me-md-2">
-                                    <i class="fas fa-times me-1"></i> Cancel
-                                </a>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-1"></i> {% if chapter %}Update{% else %}Create{% endif %} Chapter
-                                </button>
-                            </div>
-                        </form>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Set the display order for this chapter (0 = first)
+                            </p>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200 dark:border-gray-600">
+                            <a href="{% url 'coreApp:admin_dashboard' %}" class="flex-1 sm:flex-none inline-flex items-center justify-center px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-all duration-300 transform hover:-translate-y-1">
+                                <i class="fas fa-times mr-2"></i>
+                                Cancel
+                            </a>
+                            <button type="submit" class="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 hover:from-blue-600 hover:via-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 group">
+                                <i class="fas fa-save mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                                <span>{% if chapter %}Update Chapter{% else %}Create Chapter{% endif %}</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Additional Info Card -->
+            <div class="mt-8 glass-effect rounded-2xl p-6 animate-fadeInUp" style="animation-delay: 200ms;">
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-lightbulb text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+                            Chapter Organization Tips
+                        </h3>
+                        <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                            <li class="flex items-center space-x-2">
+                                <i class="fas fa-check-circle text-green-500 text-xs"></i>
+                                <span>Use clear, descriptive titles that indicate the chapter's learning objectives</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <i class="fas fa-check-circle text-green-500 text-xs"></i>
+                                <span>Order chapters logically from basic to advanced concepts</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <i class="fas fa-check-circle text-green-500 text-xs"></i>
+                                <span>Keep descriptions concise but informative for better navigation</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Theme switching functionality
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        
         function toggleTheme() {
-            const currentTheme = document.body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.body.setAttribute('data-theme', newTheme);
-            
-            const themeIcon = document.getElementById('theme-icon');
-            themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            
-            // Save preference to localStorage
-            localStorage.setItem('theme', newTheme);
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
         }
         
-        // Initialize theme from localStorage
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark theme
-            document.body.setAttribute('data-theme', savedTheme);
-            
-            const themeIcon = document.getElementById('theme-icon');
-            themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        }
+        themeToggle?.addEventListener('click', toggleTheme);
         
-        // Initialize theme and animations
-        initTheme();
+        // Auto apply theme on page load
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // Form enhancements
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('.card').classList.add('animate-in');
+            // Add focus effects to form fields
+            const formFields = document.querySelectorAll('input, textarea');
+            
+            formFields.forEach(field => {
+                field.addEventListener('focus', function() {
+                    this.parentElement.classList.add('ring-2', 'ring-blue-500', 'ring-opacity-50');
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                field.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('ring-2', 'ring-blue-500', 'ring-opacity-50');
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+
+                // Auto-resize textarea
+                if (field.tagName === 'TEXTAREA') {
+                    field.addEventListener('input', function() {
+                        this.style.height = 'auto';
+                        this.style.height = this.scrollHeight + 'px';
+                    });
+                }
+            });
+
+            // Form validation feedback
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const icon = submitBtn.querySelector('i');
+                const text = submitBtn.querySelector('span');
+                
+                // Add loading state
+                icon.className = 'fas fa-spinner fa-spin mr-2';
+                text.textContent = 'Saving...';
+                submitBtn.disabled = true;
+            });
+
+            // Character counter for title
+            const titleInput = document.querySelector('input[name="title"]');
+            if (titleInput) {
+                const maxLength = 100;
+                const counter = document.createElement('div');
+                counter.className = 'text-xs text-gray-500 dark:text-gray-400 mt-1 text-right';
+                titleInput.parentElement.appendChild(counter);
+                
+                function updateCounter() {
+                    const remaining = maxLength - titleInput.value.length;
+                    counter.textContent = `${titleInput.value.length}/${maxLength} characters`;
+                    counter.className = remaining < 10 ? 'text-xs text-red-500 mt-1 text-right' : 'text-xs text-gray-500 dark:text-gray-400 mt-1 text-right';
+                }
+                
+                titleInput.addEventListener('input', updateCounter);
+                updateCounter();
+            }
         });
     </script>
+
 </body>
 </html>

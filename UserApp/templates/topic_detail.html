@@ -1,21 +1,218 @@
 {% extends "base.html" %}
-
 {% block title %}{{ topic.title }}{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-4">{{ topic.title }}</h1>
-    <p class="text-gray-600 mb-2">From: {{ topic.chapter.title }}</p>
-    
-    <div class="bg-white p-6 rounded shadow mb-4">
-        {{ topic.content|linebreaks }}
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-5xl mx-auto">
+        
+        <!-- Topic Header -->
+        <div class="glass-effect rounded-2xl p-8 mb-8 shadow-2xl animate-fadeInUp">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div class="flex-1">
+                    <!-- Breadcrumb -->
+                    <nav class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
+                        <a href="{% url 'UserApp:home' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                            <i class="fas fa-home mr-1"></i>Home
+                        </a>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                        <a href="{% url 'UserApp:enter_course' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                            Course
+                        </a>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                        {% if topic.chapter %}
+                        <a href="{% url 'UserApp:chapter_detail' topic.chapter.pk %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                            {{ topic.chapter.title }}
+                        </a>
+                        <i class="fas fa-chevron-right text-xs"></i>
+                        {% endif %}
+                        <span class="text-blue-600 dark:text-blue-400 font-medium">{{ topic.title }}</span>
+                    </nav>
+                    
+                    <!-- Topic Title -->
+                    <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-4">
+                        {{ topic.title }}
+                    </h1>
+                    
+                    <!-- Topic Meta -->
+                    <div class="flex flex-wrap items-center gap-4 text-sm">
+                        {% if topic.chapter %}
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-bookmark text-white text-xs"></i>
+                            </div>
+                            <span class="text-gray-600 dark:text-gray-400">Chapter: {{ topic.chapter.title }}</span>
+                        </div>
+                        {% endif %}
+                        {% if topic.difficulty %}
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-signal text-white text-xs"></i>
+                            </div>
+                            <span class="text-gray-600 dark:text-gray-400">Difficulty: {{ topic.get_difficulty_display }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Progress Indicator -->
+                <div class="flex items-center space-x-6">
+                    <div class="relative">
+                        <svg class="progress-ring w-20 h-20" viewBox="0 0 120 120">
+                            <circle
+                                class="text-gray-300 dark:text-gray-600"
+                                stroke-width="8"
+                                stroke="currentColor"
+                                fill="transparent"
+                                r="52"
+                                cx="60"
+                                cy="60"/>
+                            <circle
+                                class="progress-ring-circle text-green-500"
+                                stroke-width="8"
+                                stroke-dasharray="326.73"
+                                stroke-dashoffset="{% if is_completed %}0{% else %}326.73{% endif %}"
+                                stroke-linecap="round"
+                                stroke="currentColor"
+                                fill="transparent"
+                                r="52"
+                                cx="60"
+                                cy="60"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            {% if is_completed %}
+                                <i class="fas fa-check text-green-500 text-2xl"></i>
+                            {% else %}
+                                <i class="fas fa-play text-blue-500 text-xl"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topic Content -->
+        <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden animate-fadeInUp" style="animation-delay: 200ms;">
+            <div class="bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 px-8 py-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-text text-white"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Topic Content</h2>
+                </div>
+            </div>
+            
+            <div class="p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md">
+                <div class="prose prose-lg max-w-none">
+                    {{ topic.get_rendered_content|safe }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Section -->
+        <div class="mt-8 glass-effect rounded-2xl p-8 shadow-2xl animate-fadeInUp" style="animation-delay: 400ms;">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-tasks text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+                            {% if is_completed %}Great job!{% else %}Ready to continue?{% endif %}
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            {% if is_completed %}You've completed this topic{% else %}Mark this topic as complete when you're done{% endif %}
+                        </p>
+                    </div>
+                </div>
+                
+                <form action="{% url 'UserApp:mark_complete' topic.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="inline-flex items-center px-8 py-3 {% if is_completed %}bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700{% else %}bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700{% endif %} text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 group">
+                        {% if is_completed %}
+                            <i class="fas fa-check-circle mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                            <span>Completed</span>
+                        {% else %}
+                            <i class="fas fa-check mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                            <span>Mark Complete</span>
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Navigation Section -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Previous Topic -->
+            <div class="glass-effect rounded-xl overflow-hidden">
+                {% if previous_topic %}
+                    <a href="{% url 'UserApp:topic_detail' previous_topic.pk %}" class="block p-6 text-center hover:bg-white/20 dark:hover:bg-gray-700/20 transition-all duration-300 group">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-arrow-left text-white"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Previous Topic</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{{ previous_topic.title|truncatechars:40 }}</p>
+                        {% if previous_topic.chapter %}
+                        <span class="text-xs text-purple-600 dark:text-purple-400 font-medium">{{ previous_topic.chapter.title }}</span>
+                        {% endif %}
+                    </a>
+                {% else %}
+                    <div class="p-6 text-center opacity-50">
+                        <div class="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-arrow-left text-gray-500"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-500 dark:text-gray-400 mb-2">No Previous Topic</h4>
+                        <p class="text-sm text-gray-400 dark:text-gray-500">You're at the beginning!</p>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Next Topic -->
+            <div class="glass-effect rounded-xl overflow-hidden">
+                {% if next_topic %}
+                    <a href="{% url 'UserApp:topic_detail' next_topic.pk %}" class="block p-6 text-center hover:bg-white/20 dark:hover:bg-gray-700/20 transition-all duration-300 group">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-arrow-right text-white"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Next Topic</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{{ next_topic.title|truncatechars:40 }}</p>
+                        {% if next_topic.chapter %}
+                        <span class="text-xs text-blue-600 dark:text-blue-400 font-medium">{{ next_topic.chapter.title }}</span>
+                        {% endif %}
+                    </a>
+                {% else %}
+                    <div class="p-6 text-center opacity-50">
+                        <div class="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-arrow-right text-gray-500"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-500 dark:text-gray-400 mb-2">No Next Topic</h4>
+                        <p class="text-sm text-gray-400 dark:text-gray-500">You've reached the end!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
-    
-    <form action="{% url 'UserApp:mark_complete' topic.pk %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-            {% if is_completed %}✓ Completed{% else %}Mark Complete{% endif %}
-        </button>
-    </form>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Add keyboard navigation
+document.addEventListener('keydown', function(e) {
+    // Left arrow key for previous topic (Ctrl + Left Arrow)
+    if (e.key === 'ArrowLeft' && e.ctrlKey) {
+        e.preventDefault();
+        {% if previous_topic %}
+            window.location.href = "{% url 'UserApp:topic_detail' previous_topic.pk %}";
+        {% endif %}
+    }
+    
+    // Right arrow key for next topic (Ctrl + Right Arrow)
+    if (e.key === 'ArrowRight' && e.ctrlKey) {
+        e.preventDefault();
+        {% if next_topic %}
+            window.location.href = "{% url 'UserApp:topic_detail' next_topic.pk %}";
+        {% endif %}
+    }
+});
+</script>
 {% endblock %}

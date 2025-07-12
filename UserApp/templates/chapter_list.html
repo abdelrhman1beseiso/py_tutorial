@@ -1,17 +1,111 @@
 {% extends "base.html" %}
-
 {% block title %}Course Chapters{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-6">Python Course</h1>
-    
-    {% for chapter in chapters %}
-    <div class="bg-white p-6 rounded-lg shadow mb-4">
-        <h2 class="text-2xl font-bold">{{ chapter.title }}</h2>
-        <p class="text-gray-600 my-2">{{ chapter.description }}</p>
-        <a href="{% url 'UserApp:chapter_detail' chapter.pk %}" class="text-blue-600">View Topics</a>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                <i class="fas fa-book w-4 h-4"></i>
+                Course Overview
+            </div>
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-4">
+                Python Course
+            </h1>
+            <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Complete Python programming course with hands-on exercises and real-world projects
+            </p>
+        </div>
+
+        <!-- Chapters Grid -->
+        <div class="grid gap-8">
+            {% for chapter in chapters %}
+            <div class="glass-effect rounded-2xl shadow-lg overflow-hidden card-hover">
+                <div class="p-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                                {{ chapter.title }}
+                            </h2>
+                            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                                {{ chapter.description }}
+                            </p>
+                        </div>
+                        
+                        {% if user.is_authenticated and chapter.completed_topics == chapter.total_topics and chapter.total_topics > 0 %}
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center flex-shrink-0 ml-6">
+                            <i class="fas fa-crown text-white text-lg"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if user.is_authenticated %}
+                    <!-- Progress Section -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Progress</span>
+                            <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                                {{ chapter.completed_topics|default:0 }}/{{ chapter.total_topics|default:0 }} topics
+                            </span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 overflow-hidden">
+                            <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-500" 
+                                 style="width: {% if chapter.total_topics %}{% widthratio chapter.completed_topics chapter.total_topics 100 %}{% else %}0{% endif %}%">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Chapter Stats -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-list"></i>
+                                {{ chapter.total_topics|default:0 }} topics
+                            </span>
+                            {% if chapter.estimated_duration %}
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-clock"></i>
+                                {{ chapter.estimated_duration }}
+                            </span>
+                            {% endif %}
+                            {% if chapter.difficulty %}
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-signal"></i>
+                                {{ chapter.get_difficulty_display }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        
+                        <a href="{% url 'UserApp:chapter_detail' chapter.pk %}" 
+                           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 group">
+                            <span>View Topics</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Empty State -->
+            <div class="text-center py-16">
+                <div class="w-20 h-20 bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-book text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                    No Chapters Available
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
+                    Course chapters are being prepared. Check back soon for exciting Python content!
+                </p>
+                <a href="{% url 'UserApp:home' %}" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    <i class="fas fa-home mr-2"></i>
+                    Back to Home
+                </a>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

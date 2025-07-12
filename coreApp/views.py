@@ -78,10 +78,26 @@ def create_topic(request, chapter_pk=None):
         'selected_chapter': chapter,
         'title': 'Create Topic'
     })
+
+
+@superuser_required
+def delete_topic(request, pk):
+    topic = get_object_or_404(Topic, pk=pk)
+    if request.method == 'POST':
+        topic.delete()
+        messages.success(request, 'Topic deleted successfully!')
+        return redirect('coreApp:admin_dashboard')
+    # Show a confirmation page if not POST
+    return render(request, 'admin/delete.html', {
+        'topic': topic,
+        'title': 'Delete Topic'
+    })
+    
+
+
 @superuser_required
 def edit_topic(request, pk):
     topic = get_object_or_404(Topic, pk=pk)
-    
     chapters = Chapter.objects.all()
     
     if request.method == 'POST':
@@ -100,19 +116,3 @@ def edit_topic(request, pk):
         'selected_chapter': topic.chapter,
         'title': 'Edit Topic'
     })
-'''
-@superuser_required
-def user_profile(request):
-    chapters = Chapter.objects.filter(topics__is_published=True).distinct().prefetch_related(
-        Prefetch('topics', queryset=Topic.objects.filter(is_published=True))
-    )
-    
-    progress = set()
-    if Topic.objects.exists():
-        progress.add(Topic.objects.first().id)
-    
-    return render(request, 'user_profile.html', {
-        'chapters': chapters,
-        'completed_topics': progress,
-        'title': 'My Profile'
-    })'''

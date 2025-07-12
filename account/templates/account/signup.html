@@ -1,54 +1,349 @@
-{% extends "account/base_auth.html" %}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyTutorial - Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+            to { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
+        }
+        .bg-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(147, 51, 234, 0.1) 0%, transparent 50%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 transition-all duration-500 bg-pattern">
 
-{% block title %}Sign Up{% endblock %}
-{% block auth_title %}Create Account{% endblock %}
+    <!-- Background Elements -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full opacity-20 animate-float"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-purple-400 to-pink-600 rounded-full opacity-20 animate-float" style="animation-delay: -3s;"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-blue-300 to-purple-400 rounded-full opacity-10 animate-float" style="animation-delay: -1.5s;"></div>
+    </div>
 
-{% block auth_content %}
-<form method="POST">
-    {% csrf_token %}
-    
-    {% if form.errors %}
-    <div class="alert alert-danger">
-        Please correct the errors below.
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="fixed top-6 right-6 z-50 p-3 glass-effect rounded-full text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-110">
+        <i class="fas fa-sun dark:hidden text-lg"></i>
+        <i class="fas fa-moon hidden dark:block text-lg"></i>
+    </button>
+
+    <!-- Main Container -->
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md">
+            
+            <!-- Logo Section -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-4 animate-glow">
+                    <i class="fab fa-python text-white text-2xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-2">
+                    PyTutorial
+                </h1>
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-2">Create Account</h2>
+                <p class="text-gray-600 dark:text-gray-400">Join thousands of Python learners today</p>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div class="glass-effect rounded-2xl p-8 shadow-2xl">
+                <form method="POST" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-xl flex items-center space-x-3 animate-pulse">
+                        <i class="fas fa-exclamation-triangle text-lg"></i>
+                        <span class="font-medium">Please correct the errors below.</span>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Username Field -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-user mr-2 text-blue-500"></i>Username
+                        </label>
+                        <div class="relative group">
+                            {{ form.username }}
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200"></i>
+                            </div>
+                        </div>
+                        {% if form.username.errors %}
+                        <div class="text-red-500 dark:text-red-400 text-sm flex items-center space-x-2 animate-pulse">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>{{ form.username.errors }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Email Field -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-envelope mr-2 text-blue-500"></i>Email Address
+                        </label>
+                        <div class="relative group">
+                            {{ form.email }}
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200"></i>
+                            </div>
+                        </div>
+                        {% if form.email.errors %}
+                        <div class="text-red-500 dark:text-red-400 text-sm flex items-center space-x-2 animate-pulse">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>{{ form.email.errors }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Password Field -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-lock mr-2 text-blue-500"></i>Password
+                        </label>
+                        <div class="relative group">
+                            {{ form.password1 }}
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200"></i>
+                            </div>
+                            <button type="button" id="togglePassword1" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-blue-500 transition-colors duration-200">
+                                <i class="fas fa-eye" id="eyeIcon1"></i>
+                            </button>
+                        </div>
+                        {% if form.password1.errors %}
+                        <div class="text-red-500 dark:text-red-400 text-sm flex items-center space-x-2 animate-pulse">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>{{ form.password1.errors }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Confirm Password Field -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            <i class="fas fa-lock mr-2 text-blue-500"></i>Confirm Password
+                        </label>
+                        <div class="relative group">
+                            {{ form.password2 }}
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200"></i>
+                            </div>
+                            <button type="button" id="togglePassword2" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-blue-500 transition-colors duration-200">
+                                <i class="fas fa-eye" id="eyeIcon2"></i>
+                            </button>
+                        </div>
+                        {% if form.password2.errors %}
+                        <div class="text-red-500 dark:text-red-400 text-sm flex items-center space-x-2 animate-pulse">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>{{ form.password2.errors }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Sign Up Button -->
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 hover:from-blue-600 hover:via-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 flex items-center justify-center space-x-2 group">
+                        <i class="fas fa-user-plus group-hover:translate-x-1 transition-transform duration-200"></i>
+                        <span>Sign Up</span>
+                    </button>
+                    
+                    <!-- Divider -->
+                    <div class="relative my-6">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-4 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 font-medium rounded-full">OR</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Login Link -->
+                    <div class="text-center">
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Already have an account? 
+                            <a href="{% url 'account:login' %}" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-bold transition-colors duration-200 hover:underline">
+                                Login
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Footer -->
+            <div class="text-center mt-8">
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    © 2024 PyTutorial. Made with <i class="fas fa-heart text-red-500 animate-pulse"></i> for Python learners.
+                </p>
+            </div>
+        </div>
     </div>
-    {% endif %}
-    
-    <div class="mb-3">
-        {{ form.username }}
-        {% if form.username.errors %}
-        <div class="text-danger mt-1">{{ form.username.errors }}</div>
-        {% endif %}
-    </div>
-    
-    <div class="mb-3">
-        {{ form.email }}
-        {% if form.email.errors %}
-        <div class="text-danger mt-1">{{ form.email.errors }}</div>
-        {% endif %}
-    </div>
-    
-    <div class="mb-3">
-        {{ form.password1 }}
-        {% if form.password1.errors %}
-        <div class="text-danger mt-1">{{ form.password1.errors }}</div>
-        {% endif %}
-    </div>
-    
-    <div class="mb-3">
-        {{ form.password2 }}
-        {% if form.password2.errors %}
-        <div class="text-danger mt-1">{{ form.password2.errors }}</div>
-        {% endif %}
-    </div>
-    
-    <button type="submit" class="btn btn-auth">Sign Up</button>
-    
-    <div class="divider">
-        <span class="divider-text">OR</span>
-    </div>
-    
-    <div class="text-center">
-        <p>Already have an account? <a href="{% url 'account:login' %}" class="fw-bold">Login</a></p>
-    </div>
-</form>
-{% endblock %}
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+        }
+        
+        themeToggle?.addEventListener('click', toggleTheme);
+        
+        // Auto apply theme on page load
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        
+        // Password visibility toggle for password1
+        const togglePassword1 = document.getElementById('togglePassword1');
+        const passwordField1 = document.getElementById('{{ form.password1.id_for_label }}');
+        const eyeIcon1 = document.getElementById('eyeIcon1');
+        
+        togglePassword1?.addEventListener('click', function() {
+            const type = passwordField1.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField1.setAttribute('type', type);
+            
+            if (type === 'password') {
+                eyeIcon1.classList.remove('fa-eye-slash');
+                eyeIcon1.classList.add('fa-eye');
+            } else {
+                eyeIcon1.classList.remove('fa-eye');
+                eyeIcon1.classList.add('fa-eye-slash');
+            }
+        });
+        
+        // Password visibility toggle for password2
+        const togglePassword2 = document.getElementById('togglePassword2');
+        const passwordField2 = document.getElementById('{{ form.password2.id_for_label }}');
+        const eyeIcon2 = document.getElementById('eyeIcon2');
+        
+        togglePassword2?.addEventListener('click', function() {
+            const type = passwordField2.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField2.setAttribute('type', type);
+            
+            if (type === 'password') {
+                eyeIcon2.classList.remove('fa-eye-slash');
+                eyeIcon2.classList.add('fa-eye');
+            } else {
+                eyeIcon2.classList.remove('fa-eye');
+                eyeIcon2.classList.add('fa-eye-slash');
+            }
+        });
+        
+        // Form field animations
+        const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+        
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-blue-500', 'ring-opacity-50');
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-blue-500', 'ring-opacity-50');
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+
+    <style>
+        /* Custom form field styling */
+        form input[type="text"],
+        form input[type="email"], 
+        form input[type="password"] {
+            width: 100%;
+            padding: 16px 20px 16px 48px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .dark form input[type="text"],
+        .dark form input[type="email"],
+        .dark form input[type="password"] {
+            background: rgba(31, 41, 55, 0.8);
+            border-color: #4b5563;
+            color: white;
+        }
+        
+        form input[type="text"]:focus,
+        form input[type="email"]:focus,
+        form input[type="password"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+        }
+        
+        .dark form input[type="text"]:focus,
+        .dark form input[type="email"]:focus,
+        .dark form input[type="password"]:focus {
+            background: rgba(31, 41, 55, 0.95);
+        }
+        
+        form input::placeholder {
+            color: #9ca3af;
+            font-weight: 400;
+        }
+        
+        .dark form input::placeholder {
+            color: #6b7280;
+        }
+        
+        /* Smooth transitions for all elements */
+        * {
+            transition: all 0.3s ease;
+        }
+    </style>
+
+</body>
+</html>
