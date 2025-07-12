@@ -53,7 +53,7 @@ A web-based learning platform built with Django to help students learn Python th
 
 ### Setup Instructions
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/abdelrhman1beseiso/py_tutorial
 cd python-tutorial-platform
 python -m venv venv
 source venv/bin/activate  # or venv\Scripts\activate on Windows
