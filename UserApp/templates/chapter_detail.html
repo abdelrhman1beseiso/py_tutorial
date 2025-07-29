@@ -7,21 +7,21 @@
         
         <!-- Breadcrumb Navigation -->
         <nav class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-8">
-            <a href="{% url 'UserApp:home' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+            <a href="{% url 'UserApp:home' %}" class="hover:text-navy-900 dark:hover:text-white transition-colors duration-200">
                 <i class="fas fa-home mr-1"></i>Home
             </a>
             <i class="fas fa-chevron-right text-xs"></i>
-            <a href="{% url 'UserApp:enter_course' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+            <a href="{% url 'UserApp:enter_course' %}" class="hover:text-navy-900 dark:hover:text-white transition-colors duration-200">
                 Course
             </a>
             <i class="fas fa-chevron-right text-xs"></i>
-            <span class="text-blue-600 dark:text-blue-400 font-medium">{{ chapter.title }}</span>
+            <span class="text-navy-900 dark:text-white font-medium">{{ chapter.title }}</span>
         </nav>
 
         <!-- Chapter Header -->
         <div class="glass-effect rounded-2xl p-8 mb-8 shadow-2xl">
             <div class="text-center">
-                <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-4">
+                <h1 class="text-4xl font-bold text-navy-900 dark:text-white mb-4">
                     {{ chapter.title }}
                 </h1>
                 {% if chapter.description %}
@@ -35,12 +35,12 @@
                 <div class="mt-8 max-w-md mx-auto">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Chapter Progress</span>
-                        <span class="text-sm font-bold text-blue-600 dark:text-blue-400">
+                        <span class="text-sm font-bold text-navy-900 dark:text-white">
                             {{ completed_topics }}/{{ total_topics }} topics
                         </span>
                     </div>
-                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 overflow-hidden">
-                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-500" 
+                    <div class="w-full bg-gray-300 dark:bg-gray-600 rounded-full h-3 overflow-hidden">
+                        <div class="bg-navy-900 h-3 rounded-full transition-all duration-500" 
                              style="width: {% if total_topics > 0 %}{% widthratio completed_topics total_topics 100 %}{% else %}0{% endif %}%">
                         </div>
                     </div>
@@ -56,10 +56,10 @@
         <!-- Topics List -->
         <div class="glass-effect rounded-2xl shadow-lg p-8">
             <div class="flex items-center gap-3 text-2xl font-bold mb-8">
-                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <div class="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center">
                     <i class="fas fa-list text-white"></i>
                 </div>
-                <span class="text-gray-800 dark:text-white">Chapter Topics</span>
+                <span class="text-navy-900 dark:text-white">Chapter Topics</span>
                 {% if total_topics > 0 %}
                 <span class="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2">
                     ({{ total_topics }} topic{{ total_topics|pluralize }})
@@ -75,7 +75,7 @@
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex items-center gap-3 flex-1">
                                 <!-- Topic Number/Status -->
-                                <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold {% if topic.is_completed > 0 %}bg-green-500 text-white{% else %}bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300{% endif %}">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold {% if topic.is_completed > 0 %}bg-green-500 text-white{% else %}bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300{% endif %}">
                                     {% if topic.is_completed > 0 %}
                                     <i class="fas fa-check"></i>
                                     {% else %}
@@ -83,7 +83,7 @@
                                     {% endif %}
                                 </div>
                                 
-                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                                <h3 class="text-xl font-semibold text-navy-900 dark:text-white group-hover:text-navy-700 dark:group-hover:text-gray-300 transition-colors duration-300">
                                     {{ topic.title }}
                                 </h3>
                             </div>
@@ -146,16 +146,16 @@
             {% else %}
             <!-- Empty State -->
             <div class="text-center py-16">
-                <div class="w-20 h-20 bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div class="w-20 h-20 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i class="fas fa-book-open text-white text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 class="text-xl font-semibold text-navy-900 dark:text-white mb-4">
                     No Topics Available
                 </h3>
                 <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
                     This chapter doesn't have any topics yet. Check back later for new content!
                 </p>
-                <a href="{% url 'UserApp:home' %}" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                <a href="{% url 'UserApp:home' %}" class="inline-flex items-center px-6 py-3 bg-navy-900 text-white font-semibold rounded-lg hover:bg-navy-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                     <i class="fas fa-home mr-2"></i>
                     Back to Home
                 </a>
@@ -167,7 +167,7 @@
         {% if previous_chapter or next_chapter %}
         <div class="flex justify-between items-center mt-8">
             {% if previous_chapter %}
-            <a href="{% url 'UserApp:chapter_detail' previous_chapter.pk %}" class="flex items-center gap-2 px-6 py-3 glass-effect text-gray-700 dark:text-gray-300 rounded-lg hover:bg-white/20 dark:hover:bg-gray-700/20 transition-colors">
+            <a href="{% url 'UserApp:chapter_detail' previous_chapter.pk %}" class="flex items-center gap-2 px-6 py-3 glass-effect text-navy-700 dark:text-gray-300 rounded-lg hover:bg-white/20 dark:hover:bg-navy-700/20 transition-colors">
                 <i class="fas fa-arrow-left w-4 h-4"></i>
                 Previous Chapter
             </a>
@@ -176,7 +176,7 @@
             {% endif %}
             
             {% if next_chapter %}
-            <a href="{% url 'UserApp:chapter_detail' next_chapter.pk %}" class="flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+            <a href="{% url 'UserApp:chapter_detail' next_chapter.pk %}" class="flex items-center gap-2 px-6 py-3 bg-navy-900 text-white rounded-lg hover:bg-navy-800 transition-colors">
                 Next Chapter
                 <i class="fas fa-arrow-right w-4 h-4"></i>
             </a>

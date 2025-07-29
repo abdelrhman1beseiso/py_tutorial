@@ -12,11 +12,23 @@
                 extend: {
                     colors: {
                         primary: {
-                            50: '#eff6ff',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            900: '#1e3a8a'
+                            50: '#f0f4f8',
+                            500: '#001f3f',
+                            600: '#001a36',
+                            700: '#00152d',
+                            900: '#000b14'
+                        },
+                        navy: {
+                            50: '#f0f4f8',
+                            100: '#d9e2ec',
+                            200: '#bcccdc',
+                            300: '#9fb3c8',
+                            400: '#829ab1',
+                            500: '#627d98',
+                            600: '#486581',
+                            700: '#334e68',
+                            800: '#243b53',
+                            900: '#001f3f'
                         }
                     },
                     fontFamily: {
@@ -48,8 +60,8 @@
             50% { transform: translateY(-20px); }
         }
         @keyframes glow {
-            from { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-            to { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
+            from { box-shadow: 0 0 20px rgba(0, 31, 63, 0.3); }
+            to { box-shadow: 0 0 30px rgba(0, 31, 63, 0.6); }
         }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
@@ -69,30 +81,30 @@
         }
         .bg-pattern {
             background-image: 
-                radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(147, 51, 234, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 25% 25%, rgba(0, 31, 63, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(211, 211, 211, 0.1) 0%, transparent 50%);
         }
         .glass-effect {
             backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(211, 211, 211, 0.3);
         }
         .dark .glass-effect {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 31, 63, 0.9);
+            border: 1px solid rgba(211, 211, 211, 0.2);
         }
         .hero-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #001f3f 0%, #334e68 100%);
         }
         .card-hover {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .card-hover:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 31, 63, 0.15);
         }
         .progress-bar {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+            background: linear-gradient(90deg, #001f3f, #334e68, #627d98);
             background-size: 200% 100%;
             animation: shimmer 2s infinite;
         }
@@ -107,7 +119,7 @@
         }
         
         .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-            color: #3b82f6;
+            color: #001f3f;
             font-weight: 700;
             margin-top: 2rem;
             margin-bottom: 1rem;
@@ -115,7 +127,7 @@
         
         .dark .prose h1, .dark .prose h2, .dark .prose h3, 
         .dark .prose h4, .dark .prose h5, .dark .prose h6 {
-            color: #60a5fa;
+            color: #d3d3d3;
         }
         
         .prose p {
@@ -129,17 +141,17 @@
         }
         
         .prose pre {
-            background: #1e293b !important;
+            background: #001f3f !important;
             border-radius: 12px;
             padding: 1.5rem;
             margin: 1.5rem 0;
             overflow-x: auto;
-            border: 1px solid #334155;
+            border: 1px solid #334e68;
         }
         
         .prose code {
-            background: #e2e8f0;
-            color: #1e293b;
+            background: #d3d3d3;
+            color: #001f3f;
             padding: 0.25rem 0.5rem;
             border-radius: 6px;
             font-family: 'JetBrains Mono', monospace;
@@ -147,13 +159,13 @@
         }
         
         .dark .prose code {
-            background: #374151;
-            color: #f3f4f6;
+            background: #334e68;
+            color: #d3d3d3;
         }
         
         .prose pre code {
             background: transparent;
-            color: #e2e8f0;
+            color: #d3d3d3;
             padding: 0;
         }
         
@@ -172,7 +184,7 @@
         }
         
         .prose blockquote {
-            border-left: 4px solid #3b82f6;
+            border-left: 4px solid #001f3f;
             padding-left: 1.5rem;
             margin: 1.5rem 0;
             font-style: italic;
@@ -182,28 +194,28 @@
         }
         
         .dark .prose blockquote {
-            background: #1f2937;
-            border-left-color: #60a5fa;
+            background: #334e68;
+            border-left-color: #d3d3d3;
         }
         
         .prose a {
-            color: #3b82f6;
+            color: #001f3f;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s ease;
         }
         
         .prose a:hover {
-            color: #1d4ed8;
+            color: #334e68;
             text-decoration: underline;
         }
         
         .dark .prose a {
-            color: #60a5fa;
+            color: #d3d3d3;
         }
         
         .dark .prose a:hover {
-            color: #93c5fd;
+            color: #ffffff;
         }
 
         /* Progress indicator */
@@ -218,14 +230,14 @@
 
         /* Chapter Detail Specific Styles */
         :root {
-            --primary-color: #3b82f6;
-            --primary-hover: #2563eb;
+            --primary-color: #001f3f;
+            --primary-hover: #334e68;
             --success-color: #10b981;
             --text-primary: #1f2937;
             --text-secondary: #6b7280;
             --bg-primary: #ffffff;
             --bg-secondary: #f9fafb;
-            --border-color: #e5e7eb;
+            --border-color: #d3d3d3;
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -250,7 +262,7 @@
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            background: linear-gradient(135deg, var(--primary-color), #334e68);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -268,7 +280,7 @@
             border-radius: 12px;
             padding: 1.5rem;
             box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            border: 1px solid #e5e7eb;
+            border: 1px solid #d3d3d3;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -281,7 +293,7 @@
             left: 0;
             width: 4px;
             height: 100%;
-            background: #3b82f6;
+            background: #001f3f;
             transform: scaleY(0);
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             transform-origin: top;
@@ -302,13 +314,13 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 transition-all duration-500 bg-pattern">
+<body class="min-h-screen bg-gray-50 dark:bg-navy-900 transition-all duration-500 bg-pattern">
 
     <!-- Background Elements -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full opacity-20 animate-float"></div>
-        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-purple-400 to-pink-600 rounded-full opacity-20 animate-float" style="animation-delay: -3s;"></div>
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-blue-300 to-purple-400 rounded-full opacity-10 animate-float" style="animation-delay: -1.5s;"></div>
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-navy-900 rounded-full opacity-10 animate-float"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-gray-400 rounded-full opacity-10 animate-float" style="animation-delay: -3s;"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-navy-700 rounded-full opacity-5 animate-float" style="animation-delay: -1.5s;"></div>
     </div>
 
     <!-- Navigation -->
@@ -317,10 +329,10 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center animate-glow">
+                    <div class="w-8 h-8 bg-navy-900 rounded-lg flex items-center justify-center animate-glow">
                         <i class="fab fa-python text-white text-sm"></i>
                     </div>
-                    <a href="{% url 'UserApp:home' %}" class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition-all duration-200">
+                    <a href="{% url 'UserApp:home' %}" class="text-xl font-bold text-navy-900 dark:text-white hover:text-navy-700 dark:hover:text-gray-300 transition-all duration-200">
                         PyTutorial
                     </a>
                 </div>
@@ -328,32 +340,32 @@
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-1">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'UserApp:home' %}" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <a href="{% url 'UserApp:home' %}" class="px-4 py-2 text-sm font-medium text-navy-700 dark:text-gray-300 hover:text-navy-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                             <i class="fas fa-home mr-2"></i>Home
                         </a>
-                        <a href="{% url 'UserApp:enter_course' %}" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <a href="{% url 'UserApp:enter_course' %}" class="px-4 py-2 text-sm font-medium text-navy-700 dark:text-gray-300 hover:text-navy-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                             <i class="fas fa-book-open mr-2"></i>Full Course
                         </a>
-                        <a href="{% url 'UserApp:user_progress' %}" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <a href="{% url 'UserApp:user_progress' %}" class="px-4 py-2 text-sm font-medium text-navy-700 dark:text-gray-300 hover:text-navy-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                             <i class="fas fa-chart-line mr-2"></i>My Progress
                         </a>
                         <a href="{% url 'account:logout' %}" class="px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200">
                             <i class="fas fa-sign-out-alt mr-2"></i>Logout
                         </a>
                     {% else %}
-                        <a href="{% url 'UserApp:home' %}" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <a href="{% url 'UserApp:home' %}" class="px-4 py-2 text-sm font-medium text-navy-700 dark:text-gray-300 hover:text-navy-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                             <i class="fas fa-home mr-2"></i>Home
                         </a>
-                        <a href="{% url 'account:login' %}" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <a href="{% url 'account:login' %}" class="px-4 py-2 text-sm font-medium text-navy-700 dark:text-gray-300 hover:text-navy-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                             <i class="fas fa-sign-in-alt mr-2"></i>Log In
                         </a>
-                        <a href="{% url 'account:signup' %}" class="px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        <a href="{% url 'account:signup' %}" class="px-4 py-2 text-sm font-medium bg-navy-900 text-white hover:bg-navy-800 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                             <i class="fas fa-user-plus mr-2"></i>Sign Up
                         </a>
                     {% endif %}
 
                     <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="ml-4 p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200 border border-gray-200 dark:border-gray-700">
+                    <button id="theme-toggle" class="ml-4 p-2.5 text-gray-500 dark:text-gray-400 hover:text-navy-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200 border border-gray-300 dark:border-gray-600">
                         <i class="fas fa-sun dark:hidden text-lg"></i>
                         <i class="fas fa-moon hidden dark:block text-lg"></i>
                     </button>
@@ -361,41 +373,40 @@
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden flex items-center space-x-2">
-                    <button id="theme-toggle-mobile" class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                    <button id="theme-toggle-mobile" class="p-2 text-gray-500 dark:text-gray-400 hover:text-navy-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                         <i class="fas fa-sun dark:hidden"></i>
                         <i class="fas fa-moon hidden dark:block"></i>
                     </button>
-                    <button id="mobile-menu-toggle" class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                    <button id="mobile-menu-toggle" class="p-2 text-gray-500 dark:text-gray-400 hover:text-navy-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Mobile Navigation Menu -->
-            <div id="mobile-menu" class="hidden md:hidden pb-4 border-t border-gray-200 dark:border-gray-700 mt-4 pt-4">
+            <div id="mobile-menu" class="hidden md:hidden pb-4 border-t border-gray-300 dark:border-gray-600 mt-4 pt-4">
                 <div class="space-y-2">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'UserApp:home' %}" class="block px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <a href="{% url 'UserApp:home' %}" class="block px-4 py-3 text-sm font-medium text-navy-700 dark:text-gray-300 hover:text-navy-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                             <i class="fas fa-home mr-3"></i>Home
                         </a>
-                        <a href="{% url 'UserApp:enter_course' %}" class="block px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <a href="{% url 'UserApp:enter_course' %}" class="block px-4 py-3 text-sm font-medium text-navy-700 dark:text-gray-300 hover:text-navy-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                             <i class="fas fa-book-open mr-3"></i>Full Course
                         </a>
-                        <a href="{% url 'UserApp:user_progress' %}" class="block px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <a href="{% url 'UserApp:user_progress' %}" class="block px-4 py-3 text-sm font-medium text-navy-700 dark:text-gray-300 hover:text-navy-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                             <i class="fas fa-chart-line mr-3"></i>My Progress
-                        </a>
                         </a>
                         <a href="{% url 'account:logout' %}" class="block px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200">
                             <i class="fas fa-sign-out-alt mr-3"></i>Logout
                         </a>
                     {% else %}
-                        <a href="{% url 'UserApp:home' %}" class="block px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <a href="{% url 'UserApp:home' %}" class="block px-4 py-3 text-sm font-medium text-navy-700 dark:text-gray-300 hover:text-navy-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                             <i class="fas fa-home mr-3"></i>Home
                         </a>
-                        <a href="{% url 'account:login' %}" class="block px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <a href="{% url 'account:login' %}" class="block px-4 py-3 text-sm font-medium text-navy-700 dark:text-gray-300 hover:text-navy-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-navy-800 rounded-lg transition-all duration-200">
                             <i class="fas fa-sign-in-alt mr-3"></i>Log In
                         </a>
-                        <a href="{% url 'account:signup' %}" class="block px-4 py-3 text-sm font-medium bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 group">
+                        <a href="{% url 'account:signup' %}" class="block px-4 py-3 text-sm font-medium bg-navy-900 text-white font-bold rounded-xl hover:bg-navy-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 group">
                             <i class="fas fa-user-plus mr-2 group-hover:scale-110 transition-transform duration-200"></i>
                             Sign Up
                         </a>
@@ -490,7 +501,7 @@
             // Add copy button to code blocks
             document.querySelectorAll('pre').forEach((pre) => {
                 const button = document.createElement('button');
-                button.className = 'absolute top-2 right-2 px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-xs rounded transition-colors duration-200';
+                button.className = 'absolute top-2 right-2 px-3 py-1 bg-navy-700 hover:bg-navy-600 text-white text-xs rounded transition-colors duration-200';
                 button.textContent = 'Copy';
                 
                 button.addEventListener('click', () => {
@@ -532,11 +543,11 @@
             // Add hover effects to cards
             document.querySelectorAll('.card-hover').forEach(card => {
                 card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                    this.style.transform = 'translateY(-4px)';
                 });
                 
                 card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.transform = 'translateY(0)';
                 });
             });
 

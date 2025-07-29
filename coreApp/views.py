@@ -49,6 +49,20 @@ def edit_chapter(request, pk):
         'chapter': chapter,
         'title': 'Edit Chapter'
     })
+
+@superuser_required
+def delete_chapter(request, pk):
+    chapter = get_object_or_404(Chapter, pk=pk)
+    if request.method == 'POST':
+        chapter.delete()
+        messages.success(request, 'Chapter deleted successfully!')
+        return redirect('coreApp:admin_dashboard')
+    # Show a confirmation page if not POST
+    return render(request, 'admin/delete.html', {
+        'chapter': chapter,
+        'title': 'Delete Chapter'
+    })
+
 @superuser_required
 def create_topic(request, chapter_pk=None):
     chapters = Chapter.objects.all().order_by('order')

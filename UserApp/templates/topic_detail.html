@@ -11,25 +11,25 @@
                 <div class="flex-1">
                     <!-- Breadcrumb -->
                     <nav class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
-                        <a href="{% url 'UserApp:home' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                        <a href="{% url 'UserApp:home' %}" class="hover:text-navy-900 dark:hover:text-white transition-colors duration-200">
                             <i class="fas fa-home mr-1"></i>Home
                         </a>
                         <i class="fas fa-chevron-right text-xs"></i>
-                        <a href="{% url 'UserApp:enter_course' %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                        <a href="{% url 'UserApp:enter_course' %}" class="hover:text-navy-900 dark:hover:text-white transition-colors duration-200">
                             Course
                         </a>
                         <i class="fas fa-chevron-right text-xs"></i>
                         {% if topic.chapter %}
-                        <a href="{% url 'UserApp:chapter_detail' topic.chapter.pk %}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                        <a href="{% url 'UserApp:chapter_detail' topic.chapter.pk %}" class="hover:text-navy-900 dark:hover:text-white transition-colors duration-200">
                             {{ topic.chapter.title }}
                         </a>
                         <i class="fas fa-chevron-right text-xs"></i>
                         {% endif %}
-                        <span class="text-blue-600 dark:text-blue-400 font-medium">{{ topic.title }}</span>
+                        <span class="text-navy-900 dark:text-white font-medium">{{ topic.title }}</span>
                     </nav>
                     
                     <!-- Topic Title -->
-                    <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-4">
+                    <h1 class="text-4xl font-bold text-navy-900 dark:text-white mb-4">
                         {{ topic.title }}
                     </h1>
                     
@@ -37,7 +37,7 @@
                     <div class="flex flex-wrap items-center gap-4 text-sm">
                         {% if topic.chapter %}
                         <div class="flex items-center space-x-2">
-                            <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                            <div class="w-8 h-8 bg-navy-900 rounded-lg flex items-center justify-center">
                                 <i class="fas fa-bookmark text-white text-xs"></i>
                             </div>
                             <span class="text-gray-600 dark:text-gray-400">Chapter: {{ topic.chapter.title }}</span>
@@ -45,7 +45,7 @@
                         {% endif %}
                         {% if topic.difficulty %}
                         <div class="flex items-center space-x-2">
-                            <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center">
+                            <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
                                 <i class="fas fa-signal text-white text-xs"></i>
                             </div>
                             <span class="text-gray-600 dark:text-gray-400">Difficulty: {{ topic.get_difficulty_display }}</span>
@@ -82,7 +82,7 @@
                             {% if is_completed %}
                                 <i class="fas fa-check text-green-500 text-2xl"></i>
                             {% else %}
-                                <i class="fas fa-play text-blue-500 text-xl"></i>
+                                <i class="fas fa-play text-navy-900 text-xl"></i>
                             {% endif %}
                         </div>
                     </div>
@@ -92,7 +92,7 @@
 
         <!-- Topic Content -->
         <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden animate-fadeInUp" style="animation-delay: 200ms;">
-            <div class="bg-gradient-to-r from-blue-500 via-blue-600 to-purple-600 px-8 py-4">
+            <div class="bg-navy-900 px-8 py-4">
                 <div class="flex items-center space-x-3">
                     <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
                         <i class="fas fa-file-text text-white"></i>
@@ -101,7 +101,7 @@
                 </div>
             </div>
             
-            <div class="p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md">
+            <div class="p-8 bg-white/80 dark:bg-navy-800/80 backdrop-blur-md">
                 <div class="prose prose-lg max-w-none">
                     {{ topic.get_rendered_content|safe }}
                 </div>
@@ -112,11 +112,11 @@
         <div class="mt-8 glass-effect rounded-2xl p-8 shadow-2xl animate-fadeInUp" style="animation-delay: 400ms;">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                    <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center">
                         <i class="fas fa-tasks text-white text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+                        <h3 class="text-lg font-semibold text-navy-900 dark:text-white">
                             {% if is_completed %}Great job!{% else %}Ready to continue?{% endif %}
                         </h3>
                         <p class="text-gray-600 dark:text-gray-400">
@@ -127,7 +127,7 @@
                 
                 <form action="{% url 'UserApp:mark_complete' topic.pk %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="inline-flex items-center px-8 py-3 {% if is_completed %}bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700{% else %}bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700{% endif %} text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 group">
+                    <button type="submit" class="inline-flex items-center px-8 py-3 {% if is_completed %}bg-green-500 hover:bg-green-600{% else %}bg-navy-900 hover:bg-navy-800{% endif %} text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 group">
                         {% if is_completed %}
                             <i class="fas fa-check-circle mr-2 group-hover:scale-110 transition-transform duration-200"></i>
                             <span>Completed</span>
@@ -145,14 +145,14 @@
             <!-- Previous Topic -->
             <div class="glass-effect rounded-xl overflow-hidden">
                 {% if previous_topic %}
-                    <a href="{% url 'UserApp:topic_detail' previous_topic.pk %}" class="block p-6 text-center hover:bg-white/20 dark:hover:bg-gray-700/20 transition-all duration-300 group">
-                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <a href="{% url 'UserApp:topic_detail' previous_topic.pk %}" class="block p-6 text-center hover:bg-white/20 dark:hover:bg-navy-700/20 transition-all duration-300 group">
+                        <div class="w-12 h-12 bg-gray-500 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                             <i class="fas fa-arrow-left text-white"></i>
                         </div>
-                        <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Previous Topic</h4>
+                        <h4 class="font-semibold text-navy-900 dark:text-white mb-2">Previous Topic</h4>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{{ previous_topic.title|truncatechars:40 }}</p>
                         {% if previous_topic.chapter %}
-                        <span class="text-xs text-purple-600 dark:text-purple-400 font-medium">{{ previous_topic.chapter.title }}</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">{{ previous_topic.chapter.title }}</span>
                         {% endif %}
                     </a>
                 {% else %}
@@ -169,14 +169,14 @@
             <!-- Next Topic -->
             <div class="glass-effect rounded-xl overflow-hidden">
                 {% if next_topic %}
-                    <a href="{% url 'UserApp:topic_detail' next_topic.pk %}" class="block p-6 text-center hover:bg-white/20 dark:hover:bg-gray-700/20 transition-all duration-300 group">
-                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <a href="{% url 'UserApp:topic_detail' next_topic.pk %}" class="block p-6 text-center hover:bg-white/20 dark:hover:bg-navy-700/20 transition-all duration-300 group">
+                        <div class="w-12 h-12 bg-navy-900 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                             <i class="fas fa-arrow-right text-white"></i>
                         </div>
-                        <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Next Topic</h4>
+                        <h4 class="font-semibold text-navy-900 dark:text-white mb-2">Next Topic</h4>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{{ next_topic.title|truncatechars:40 }}</p>
                         {% if next_topic.chapter %}
-                        <span class="text-xs text-blue-600 dark:text-blue-400 font-medium">{{ next_topic.chapter.title }}</span>
+                        <span class="text-xs text-navy-900 dark:text-white font-medium">{{ next_topic.chapter.title }}</span>
                         {% endif %}
                     </a>
                 {% else %}
